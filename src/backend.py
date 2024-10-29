@@ -16,6 +16,6 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 client.connect("90c5bbbeddd24c75ad90f6e07e9bebd3.s1.eu.hivemq.cloud", 8883, 60)
-client.subscribe("your/topic")  # Replace with your specific topic
+client.subscribe("hiii")  
 
 client.loop_forever()
