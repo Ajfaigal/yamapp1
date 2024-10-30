@@ -16,7 +16,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Firebase Messages</h1>
+      <h1>Don't shoot the messenger</h1>
       {messages.length === 0 ? (
         <p>I'm here and working, just waiting on data...</p>
       ) : (
