@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
@@ -20,8 +20,13 @@ const firebaseConfig = {
   measurementId: "G-NZR6MZFNYX"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase only if not already initialized
+let app;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+}
+
+// Initialize Firebase services
 getAnalytics(app);
 getDatabase(app);
 getFirestore(app);
