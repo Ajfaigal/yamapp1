@@ -1,15 +1,12 @@
-import paho.mqtt.client as mqtt
+import firebase_admin
+from firebase_admin import credentials, db
 
-broker_url = "90c5bbbeddd24c75ad90f6e07e9bebd3.s1.eu.hivemq.cloud"
-broker_port = 8883  # Use 8884 for WebSocket
-topic = "hiii"
-message = "Hello, MQTT!"
+# Initialize Firebase
+cred = credentials.Certificate('C:\\Users\\amanda.faigal_ventio\\yamaapp\\yamapp1\\yamaapp-8de92-firebase-adminsdk-m93jm-c0ee107bb0.json')
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://yamaapp-8de92-default-rtdb.firebaseio.com/'
+})
 
-client = mqtt.Client()
-client.username_pw_set("mqtthivebroker@gmail.com", "Temppwd1")
-client.tls_set()  # Enable TLS
-
-client.connect(broker_url, broker_port)
-client.publish(topic, message)
-client.disconnect()
-print("wow")
+# Post data to Firebase
+data = {"message": "Hello from Python!"}
+db.reference('messages').push(data)

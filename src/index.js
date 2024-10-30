@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { initializeApp, getApps } from 'firebase/app';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-import { initializeApp, getApps } from 'firebase/app';
+import reportWebVitals from './reportWebVitals';
 import { getAnalytics } from 'firebase/analytics';
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';

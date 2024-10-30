@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, onValue } from 'firebase/database';
-
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyA16-yzelr9mn9RgOqW-mT3TQpwh2ovF6E",
-  authDomain: "yamaapp-8de92.firebaseapp.com",
-  databaseURL: "https://yamaapp-8de92-default-rtdb.firebaseio.com/",
-  projectId: "yamaapp-8de92",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+import { ref, onValue } from 'firebase/database';
+import { database } from './firebaseConfig'; // Use the exported database instance
 
 const App = () => {
   const [messages, setMessages] = useState([]);
@@ -24,11 +12,6 @@ const App = () => {
       const messageList = data ? Object.values(data) : [];
       setMessages(messageList);
     });
-
-    // Cleanup function
-    return () => {
-      // The 'onValue' subscription does not require an 'off' method here
-    };
   }, []);
 
   return (
