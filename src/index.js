@@ -5,11 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics } from 'firebase/analytics';
+import { getDatabase } from 'firebase/database';
+import { getFirestore } from 'firebase/firestore';
 
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyA16-yzelr9mn9RgOqW-mT3TQpwh2ovF6E",
   authDomain: "yamaapp-8de92.firebaseapp.com",
@@ -22,10 +22,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-const database = getDatabase(app);
-const db = getFirestore(app);
+getAnalytics(app);
+getDatabase(app);
+getFirestore(app);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -34,8 +33,5 @@ root.render(
   </React.StrictMode>
 );
 
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Performance monitoring
 reportWebVitals();
