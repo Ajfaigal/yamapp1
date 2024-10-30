@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, onValue } from 'firebase/database';
 
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 // Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyA16-yzelr9mn9RgOqW-mT3TQpwh2ovF6E",
@@ -19,13 +22,13 @@ const App = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const dbRef = firebase.database().ref('messages');
-    dbRef.on('value', (snapshot) => {
+    const dbRef = ref(database, 'messages');
+    onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
       const messageList = data ? Object.values(data) : [];
       setMessages(messageList);
     });
-
+  
     return () => dbRef.off(); // Cleanup
   }, []);
 
