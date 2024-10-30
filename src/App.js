@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue } from 'firebase/database';
 
-
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
 // Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyA16-yzelr9mn9RgOqW-mT3TQpwh2ovF6E",
@@ -14,9 +11,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 const App = () => {
   const [messages, setMessages] = useState([]);
@@ -28,8 +24,11 @@ const App = () => {
       const messageList = data ? Object.values(data) : [];
       setMessages(messageList);
     });
-  
-    return () => dbRef.off(); // Cleanup
+
+    // Cleanup function
+    return () => {
+      // The 'onValue' subscription does not require an 'off' method here
+    };
   }, []);
 
   return (
