@@ -1,32 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import mqtt from 'mqtt';
+import firebase from 'firebase/app';
+import 'firebase/database';
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyA16-yzelr9mn9RgOqW-mT3TQpwh2ovF6E",
+  authDomain: "yamaapp-8de92.firebaseapp.com",
+  databaseURL: "https://yamaapp-8de92-default-rtdb.firebaseio.com/",
+  projectId: "yamaapp-8de92",
+};
+
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const App = () => {
-  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const client = mqtt.connect('wss://90c5bbbeddd24c75ad90f6e07e9bebd3.s1.eu.hivemq.cloud:8884/mqtt', {
-      username: 'your_username',
-      password: 'your_password',
-      protocol: 'wss',  // WebSocket Secure
+    const dbRef = firebase.database().ref('messages');
+    dbRef.on('value', (snapshot) => {
+      const data = snapshot.val();
+      const messageList = data ? Object.values(data) : [];
+      setMessages(messageList);
     });
 
-    client.on('connect', () => {
-      console.log('Connected to HiveMQ Cloud via WebSocket');
-      client.subscribe('your/topic');
-    });
-
-    client.on('message', (topic, payload) => {
-      setMessage(payload.toString());
-    });
-
-    return () => client.end();  // Cleanup on unmount
+    return () => dbRef.off(); // Cleanup
   }, []);
 
   return (
     <div>
-      <h1>MQTT Messages</h1>
-      <p>{message}</p>
+      <h1>Firebase Messages</h1>
+      <ul>
+        {messages.map((msg, index) => (
+          <li key={index}>{msg.message}</li>
+        ))}
+      </ul>
     </div>
   );
 };
