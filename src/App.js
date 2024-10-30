@@ -34,11 +34,15 @@ const App = () => {
   return (
     <div>
       <h1>Firebase Messages</h1>
-      <ul>
-        {messages.map((msg, index) => (
-          <li key={index}>{msg.message}</li>
-        ))}
-      </ul>
+      {messages.length === 0 ? (
+        <p>I'm here and working, just waiting on data...</p>
+      ) : (
+        <ul>
+          {messages.map((msg, index) => (
+            <li key={index}>{msg.message}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
