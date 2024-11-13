@@ -1,32 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import mqtt from 'mqtt';
+import { getDatabase, ref, onValue } from 'firebase/database';
+
+const database = getDatabase();
 
 const App = () => {
-  const [message, setMessage] = useState('');
+  const [bayMessages, setBayMessages] = useState({
+    bay1: { cycleTime: null, latestMessage: null },
+    bay2: { cycleTime: null, latestMessage: null },
+    bay3: { cycleTime: null, latestMessage: null },
+    bay4: { cycleTime: null, latestMessage: null },
+    bay5: { cycleTime: null, latestMessage: null },
+  });
 
   useEffect(() => {
-    const client = mqtt.connect('wss://90c5bbbeddd24c75ad90f6e07e9bebd3.s1.eu.hivemq.cloud:8884/mqtt', {
-      username: 'your_username',
-      password: 'your_password',
-      protocol: 'wss',  // WebSocket Secure
-    });
+    const dbRef = ref(database, 'messages');
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      const newBayMessages = { ...bayMessages };
 
-    client.on('connect', () => {
-      console.log('Connected to HiveMQ Cloud via WebSocket');
-      client.subscribe('your/topic');
-    });
+      Object.entries(data).forEach(([key, value]) => {
+        if (key.startsWith('CycleTime')) {
+          const bayNumber = key.replace('CycleTime', '');
+          const bayKey = `bay${bayNumber}`;
+          if (newBayMessages[bayKey]) {
+            newBayMessages[bayKey].cycleTime = value;  // Store the cycle time directly
+          }
+        } else {
+          // Update latestMessage for all bays
+          for (let i = 1; i <= 5; i++) {
+            const bayKey = `bay${i}`;
+            newBayMessages[bayKey].latestMessage = value;
+          }
+        }
+      });
 
-    client.on('message', (topic, payload) => {
-      setMessage(payload.toString());
+      setBayMessages(newBayMessages);
     });
-
-    return () => client.end();  // Cleanup on unmount
   }, []);
 
   return (
     <div>
-      <h1>MQTT Messages</h1>
-      <p>{message}</p>
+      <h1>I'm actually updating</h1>
+      <div className="bay-container">
+        {Object.keys(bayMessages).map((bay) => (
+          <div key={bay} className="bay-box">
+            <h2>{bay.toUpperCase()}</h2>
+            <div>Cycle Time: {bayMessages[bay].cycleTime !== null ? bayMessages[bay].cycleTime : 'No Data'}</div>
+            <div>Latest Message: {bayMessages[bay].latestMessage || 'No Data'}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
