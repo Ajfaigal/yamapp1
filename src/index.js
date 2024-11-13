@@ -4,7 +4,6 @@ import App from './App';
 import './index.css';
 import { app } from './firebaseConfig'; // Ensures Firebase is initialized
 
-serviceWorker.unregister();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
