@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
+import { database } from './firebaseConfig'; // import the initialized database from firebaseConfig.js
 import './App.css';
-
-const database = getDatabase();
 
 const App = () => {
   const [bayMessages, setBayMessages] = useState({
@@ -55,4 +54,3 @@ const App = () => {
 };
 
 export default App;
-
