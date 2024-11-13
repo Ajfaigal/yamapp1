@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getDatabase, ref, onValue } from 'firebase/database';
+import './App.css';
 
 const database = getDatabase();
 
