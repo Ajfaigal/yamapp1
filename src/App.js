@@ -24,10 +24,9 @@ const App = () => {
           const bayNumber = key.replace('CycleTime', '');
           const bayKey = `bay${bayNumber}`;
           if (newBayMessages[bayKey]) {
-            newBayMessages[bayKey].cycleTime = value;  // Store the cycle time directly
+            newBayMessages[bayKey].cycleTime = value;
           }
         } else {
-          // Update latestMessage for all bays
           for (let i = 1; i <= 5; i++) {
             const bayKey = `bay${i}`;
             newBayMessages[bayKey].latestMessage = value;
@@ -41,12 +40,12 @@ const App = () => {
 
   return (
     <div>
-      <h1>I'm evolving</h1>
+      <h1>Firebase Messages</h1>
       <div className="bay-container">
         {Object.keys(bayMessages).map((bay) => (
           <div key={bay} className="bay-box">
             <h2>{bay.toUpperCase()}</h2>
-            <div>Cycle Time: {bayMessages[bay].cycleTime !== null ? bayMessages[bay].cycleTime : 'No Data'}</div>
+            <div>Cycle Time: {bayMessages[bay].cycleTime || 'No Data'}</div>
             <div>Latest Message: {bayMessages[bay].latestMessage || 'No Data'}</div>
           </div>
         ))}
@@ -56,3 +55,4 @@ const App = () => {
 };
 
 export default App;
+
