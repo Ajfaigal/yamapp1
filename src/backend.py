@@ -1,12 +1,12 @@
 import firebase_admin
 from firebase_admin import credentials, db
 
-# Initialize Firebase
-cred = credentials.Certificate('path/to/serviceAccountKey.json')
+# Path to your Firebase Admin SDK JSON file
+cred = credentials.Certificate('C:\\Users\\amanda.faigal_ventio\\yamaapp-8de92-firebase-adminsdk-m93jm-c0ee107bb0.json')
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://your-database-url.firebaseio.com'
+    'databaseURL': 'https://yamaapp-8de92-default-rtdb.firebaseio.com/'
 })
 
-# Post data to Firebase
-data = {"message": "Hello, Firebase!"}
+# Sample data push to Firebase
+data = {"CycleTime1": "1"}
 db.reference('messages').push(data)

@@ -26,3 +26,4 @@ const analytics = getAnalytics(app);
 const firestore = getFirestore(app);
 
 export { app, database, analytics, firestore };
+
